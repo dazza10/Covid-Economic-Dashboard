@@ -24,3 +24,40 @@ merged = pd.concat([live,new_case],axis=1)
 response = requests.get('http://api.coronatracker.com/news/trending', params={'country':'Malaysia'})
 news_updated = response.json()
 news = pd.DataFrame(json_normalize(news_updated))
+
+symbol=['AMZN','MSFT','FB','GOOGL','BABA']
+
+
+full = []
+def stock_response(base_url):
+    for i in symbol:
+        parameter={'function':'TIME_SERIES_INTRADAY','symbol':i,'interval':'60min','outputsize':'compact','datatype':'csv',
+          'apikey':'E9W1BV42Y27SB9E9'}
+        r = requests.get(base_url,params = parameter)
+        dataFrame = pd.read_csv(StringIO(r.text),sep=",")
+        dataFrame = dataFrame.rename(columns={'timestamp':'DateTime','open':'Open($)','high':'High($)','low':'Low($)',
+                                              'close':'Close($)','volume':'Volume'})
+        dataFrame['Company']=i
+        full.append(dataFrame)
+        print(full)
+    final = pd.concat(full,ignore_index=True)
+    return final
+    
+df = (stock_response('https://www.alphavantage.co/query'))
+
+df['DateTime']=pd.to_datetime(df['DateTime'])
+price_date = df['DateTime']
+price_close = df['Close($)']
+
+grid = sns.FacetGrid(df, 'Company' , size =5 , aspect = 3 ,sharey=False)
+grid.map(sns.lineplot, 'DateTime','Close($)', palette = 'deep'  )
+plt.gcf().autofmt_xdate()
+axes=grid.axes
+axes[0,0].set(ylim=(2200,None))
+axes[1,0].set(ylim=(150,None))
+axes[2,0].set(ylim=(150,None))
+axes[3,0].set(ylim=(1000,None))
+axes[4,0].set(ylim=(150,None))
+plt.xlabel('Date')
+plt.tight_layout()
+plt.show()
