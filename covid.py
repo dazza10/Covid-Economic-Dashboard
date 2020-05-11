@@ -61,3 +61,4 @@ axes[4,0].set(ylim=(150,None))
 plt.xlabel('Date')
 plt.tight_layout()
 plt.show()
+
