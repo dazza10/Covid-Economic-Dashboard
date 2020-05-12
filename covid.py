@@ -10,15 +10,21 @@ from matplotlib import dates as mpl_dates
 
 #defining the function to pull api from website
 def response(base_url):
-    paramater= {'startDate':'2020-05-06','endDate':'2020-05-11','countryCode':'MY'}
+    paramater= {'startDate':(datetime.datetime.now() + datetime.timedelta(days=-1)).strftime('%Y-%m-%d'),
+                'endDate':(datetime.datetime.now().strftime('%Y-%m-%d')),'countryCode':'MY'}
     r = requests.get(base_url, params=paramater)
+    print(r)
     dataframe = pd.DataFrame(r.json())
     return dataframe
  
 #getting live data & new cases and merging them into single dataFrame
 live = response('http://api.coronatracker.com/v3/analytics/trend/country')
 new_case = response('http://api.coronatracker.com/v3/analytics/newcases/country')
-merged = pd.concat([live,new_case],axis=1)
+daily_stats = pd.concat([live,new_case],axis=1)
+daily_stats.drop(columns=['last_updated','country_code','country'],inplace=True)
+daily_stats.rename(columns={'total_confirmed':'Total_Confirmed','total_deaths':'Total_Deaths',
+                           'total_recovered':'Total_Recovered','new_infections':'New_Infections',
+                           'new_deaths':'New_Deaths','new_recovered':'New_Recovered'},inplace=True)
 
 #pulling some news from news api from the same website
 response = requests.get('http://api.coronatracker.com/news/trending', params={'country':'Malaysia'})
