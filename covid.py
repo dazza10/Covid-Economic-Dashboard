@@ -2,11 +2,14 @@
 import requests
 import json
 import pandas as pd
-from pandas.io.json import json_normalize
 import matplotlib.pyplot as plt
 import seaborn as sns
 from io import StringIO
 from matplotlib import dates as mpl_dates
+import datetime
+import sqlalchemy
+import secrets
+
 
 #defining the function to pull api from website
 def response(base_url):
@@ -20,17 +23,24 @@ def response(base_url):
 #getting live data & new cases and merging them into single dataFrame
 live = response('http://api.coronatracker.com/v3/analytics/trend/country')
 new_case = response('http://api.coronatracker.com/v3/analytics/newcases/country')
+new_case.drop(columns='last_updated',inplace=True)
 daily_stats = pd.concat([live,new_case],axis=1)
-daily_stats.drop(columns=['last_updated','country_code','country'],inplace=True)
+daily_stats.drop(columns=['country_code','country'],inplace=True)
+daily_stats[['Date','Time']] = daily_stats['last_updated'].str.split('T',expand=True)
+daily_stats.drop(columns=['last_updated','Time'],inplace=True)
 daily_stats.rename(columns={'total_confirmed':'Total_Confirmed','total_deaths':'Total_Deaths',
                            'total_recovered':'Total_Recovered','new_infections':'New_Infections',
                            'new_deaths':'New_Deaths','new_recovered':'New_Recovered'},inplace=True)
+daily_stats['Date']=pd.to_datetime(daily_stats['Date'])
 
 #pulling some news from news api from the same website
 response = requests.get('http://api.coronatracker.com/news/trending', params={'country':'Malaysia'})
 news_updated = (response.json())
-news = json_normalize(news_updated['items'])
+news = pd.json_normalize(news_updated['items'])
 news.drop(columns=['language','countryCode','status'],inplace=True)
+news['publishedAt']=pd.to_datetime(news['publishedAt'])
+news['addedOn']=pd.to_datetime(news['addedOn'])
+news.drop_duplicates(subset='nid',keep='first',inplace=True)
 
 symbol=['AMZN','MSFT','FB','GOOGL','BABA']
 
@@ -49,13 +59,16 @@ def stock_response(base_url):
     final = pd.concat(full,ignore_index=True)
     return final
     
-df = (stock_response('https://www.alphavantage.co/query'))
+stocks = (stock_response('https://www.alphavantage.co/query'))
+stocks[['Date','Time']]=stocks['DateTime'].str.split(" ",n=1,expand=True)
+stocks=stocks[['DateTime','Date','Time','Open($)','High($)','Low($)','Close($)','Volume','Company']]
+stocks=stocks.loc[stocks['Date']==(datetime.datetime.now() + datetime.timedelta(days=-1)).strftime('%Y-%m-%d')]
+stocks['DateTime']=pd.to_datetime(stocks['DateTime'])
+stocks['Date']=pd.to_datetime(stocks['Date'])
+stocks['Time'] = stocks['Time'].apply(lambda x: datetime.datetime.strptime(x,"%H:%M:%S").time())
 
-df['DateTime']=pd.to_datetime(df['DateTime'])
-price_date = df['DateTime']
-price_close = df['Close($)']
 
-grid = sns.FacetGrid(df, 'Company' , height=5 , aspect = 3 ,sharey=False)
+grid = sns.FacetGrid(stocks, 'Company' , height=5 , aspect = 3 ,sharey=False)
 grid.map(sns.lineplot, 'DateTime','Close($)', palette = 'deep'  )
 plt.gcf().autofmt_xdate()
 axes=grid.axes
@@ -68,4 +81,13 @@ plt.xlabel('Date')
 plt.tight_layout()
 
 
-#Writing code to database
+#Ceating a connection between SQL Database and python using SQL Alchemy
+
+conn= "mysql+pymysql://{0}:{1}@{2}/{3}".format(secrets.dbuser,secrets.dbpass,secrets.dbhost,secrets.dbname)
+engine = sqlalchemy.create_engine(conn)
+
+# Pushing Data to MySQL
+daily_stats.to_sql(name='daily_stats',con=engine, index=False,if_exists='append')
+news.to_sql(name='news',con=engine, index=False,if_exists='append')
+stocks.to_sql(name='stocks',con=engine, index=False,if_exists='append')
+
