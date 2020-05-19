@@ -6,6 +6,8 @@ Second code is to pull the data of corona cases on a daily basis
 import pandas as pd
 import datetime
 import requests
+import secrets
+import sqlalchemy
 
 #Defining the function to pull api from website
 def response(base_url):
