@@ -5,6 +5,8 @@ The code pull news from the same api and do some cleaning and pushing it to mysq
 import pandas as pd
 import datetime
 import requests
+import sqlalchemy
+import secrets
 
 
 #Pulling some news from news api from the same website
