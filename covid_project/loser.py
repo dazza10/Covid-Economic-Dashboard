@@ -1,6 +1,8 @@
 import pandas as pd
 import requests
 from bs4 import BeautifulSoup
+import secrets
+import sqlalchemy
 
 
 url = "https://www.klsescreener.com/v2/markets"
@@ -31,4 +33,9 @@ df["Change"] = df['Price'].apply(lambda x:x.split('\n')[2].split(" ")[0])
 df["% Change"] = df['Price'].apply(lambda x:x.split('\n')[2].split(" ")[1])
 df.drop(columns=["Price"],inplace =True)
 
-print (df)
+#Creating a connection betwenn python an MYSQL Database
+conn = "mysql+pymysql://{0}:{1}@{2}/{3}".format(secrets.dbuser,secrets.dbpass,secrets.dbhost,secrets.dbname)
+engine = sqlalchemy.create_engine(conn)
+
+# Moving the the Data Base
+df.to_sql(name="Top_Losers",con=engine,index=False,if_exists='append')
