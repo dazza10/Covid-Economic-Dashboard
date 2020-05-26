@@ -1,6 +1,8 @@
 import pandas as pd
 import requests
 from bs4 import BeautifulSoup
+import secrets
+import sqlalchemy
 
 
 url = "https://www.klsescreener.com/v2/markets"
@@ -28,4 +30,10 @@ df = pd.DataFrame({
 
 df["Volume"] = df['Volume'].apply(lambda x:x.split('\n')[1]) 
 
+#Creating a connection betwenn python an MYSQL Database
+conn = "mysql+pymysql://{0}:{1}@{2}/{3}".format(secrets.dbuser,secrets.dbpass,secrets.dbhost,secrets.dbname)
+engine = sqlalchemy.create_engine(conn)
+
+# Moving the the Data Base
+df.to_sql(name="Top_Active",con=engine,index=False,if_exists='append')
 
