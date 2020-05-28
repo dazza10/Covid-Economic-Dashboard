@@ -27,6 +27,7 @@ Architecture-Image:
 
 
 ## Roadmap
+My Goals Moving Forward for this Project
 - Add a Twitter Live Streaming of Data into the Database (Python Twitter Packages)
 - Use Airflow to bring all processes together
 - Performing sentiment Analysis on the Tweets (Machine Learning)
