@@ -13,7 +13,7 @@ Architecture-Image:
 
 - For example;
 
-- ```pip install pandas==1.0.3 ```
+  ```pip install pandas==1.0.3 ```
 
 2. Database used for this project was MYSQL database. Therefore all python-sql connectors used were for the MYSQL database. Please amend the codes as per your database used.
 
@@ -22,7 +22,7 @@ Architecture-Image:
 
 4. Run the file name ddl.py first to create schemas in the MYSQL database.
 
-5. Other _.py_ files can be initiated in any order.
+5. Other _.py_ files in the covid_project folder can be initiated in any order.
 
 
 
