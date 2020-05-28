@@ -5,7 +5,7 @@ This project was to showcase the volatility in the economy and how Covid-19 has 
 ## Architecture 
 ---
 Architecture-Image:
-![alt text](dwd)
+![alt text](https://github.com/dazza10/Covid-Economic-Dashboard/blob/master/Images/AWS%20(2019)%20horizontal%20framework.jpeg)
 
 
 
