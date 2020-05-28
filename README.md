@@ -13,7 +13,7 @@ Architecture-Image:
 
 - For example;
 
-- ```pip install pandas== ```
+- ```pip install pandas==1.0.3 ```
 
 2. Database used for this project was MYSQL database. Therefore all python-sql connectors used were for the MYSQL database. Please amend the codes as per your database used.
 
