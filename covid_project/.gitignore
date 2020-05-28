@@ -3,3 +3,4 @@ Lib
 .python-version
 pyvenv.cfg
 covid.py
+secrets.py
