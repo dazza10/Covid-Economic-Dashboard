@@ -38,4 +38,4 @@ conn = "mysql+pymysql://{0}:{1}@{2}/{3}".format(secrets.dbuser,secrets.dbpass,se
 engine = sqlalchemy.create_engine(conn)
 
 # Moving the the Data Base
-df.to_sql(name="Top_Losers",con=engine,index=False,if_exists='append')
+df.to_sql(name="top_losers",con=engine,index=False,if_exists='append')
