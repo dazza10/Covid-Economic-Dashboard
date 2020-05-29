@@ -3,7 +3,7 @@ import requests
 from bs4 import BeautifulSoup
 import secrets
 import sqlalchemy
-
+import datetime
 
 url = "https://www.klsescreener.com/v2/markets"
 page = requests.get(url)
@@ -29,6 +29,8 @@ df = pd.DataFrame({
 })
 
 df["Volume"] = df['Volume'].apply(lambda x:x.split('\n')[1]) 
+df['Date']=datetime.datetime.now().date().strftime('%d-%m-%Y')
+
 
 #Creating a connection betwenn python an MYSQL Database
 conn = "mysql+pymysql://{0}:{1}@{2}/{3}".format(secrets.dbuser,secrets.dbpass,secrets.dbhost,secrets.dbname)
