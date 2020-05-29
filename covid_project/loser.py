@@ -3,6 +3,7 @@ import requests
 from bs4 import BeautifulSoup
 import secrets
 import sqlalchemy
+import datetime
 
 
 url = "https://www.klsescreener.com/v2/markets"
