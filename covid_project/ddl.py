@@ -4,7 +4,7 @@ from mysql.connector import errorcode
 mydb = mysql.connector.connect(
     host = 'localhost',
     user= 'root',
-    passwd= 'mysql:101093'
+    passwd= 'XXX'
     )
 
 mycursor = mydb.cursor()
