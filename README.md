@@ -17,7 +17,7 @@ Architecture-Image:
 
 3. Database used for this project was MYSQL database. Therefore all python-sql connectors used were for the MYSQL database. Please amend the codes as per your database used.
 
-4. There is a file named secrets.py in the covid_project folder. Please open the file and fill up the local  database connection details (in my case MYSQL) and save the file. Use the database name "covid"(already written in secrets.py file) as that is the chosen name in the ddl.py file as well. Ensure the secrets.py file is saved in the same folder as all the other working files. (**IMPORTANT**)
+4. There is a file named secrets.py in the covid_project folder. Please open the file and fill up the local  database connection details (in my case MYSQL) and save the file. Use the database name "covid"(already written in secrets.py file) as that is the chosen name in the ddl.py file as well. The dbhost is usually "localhost" and the dbuser is usually "root" for conncetion to your local database. The dbpass is the same password used to log into your relational database system. Ensure the secrets.py file is saved in the same folder as all the other working files. (**IMPORTANT**)
 
 5. Open the ddl.py and fill up "psswd" by replacing the _XXX_. (**IMPORTANT**) Run the file name ddl.py first before all the other files to create schemas in the MYSQL database.
 
