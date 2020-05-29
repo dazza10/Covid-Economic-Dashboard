@@ -1,6 +1,0 @@
-beautifulsoup4         
-mysql-connector-python 
-pandas                 
-PyMySQL                
-requests               
-SQLAlchemy
