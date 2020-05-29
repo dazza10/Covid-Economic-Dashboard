@@ -19,7 +19,7 @@ Architecture-Image:
 
 4. There is a file named secrets.py in the covid_project folder. Please open the file and fill up the local  database connection details (in my case MYSQL) and save the file. Ensure the secrets.py file is saved in the same folder as all the other working files. (**IMPORTANT**)
 
-5. Open the ddl.py and fill up "psswd" by replacing the _XXX_.(**IMPORTANT**) Run the file name ddl.py first before all the other files to create schemas in the MYSQL database.
+5. Open the ddl.py and fill up "psswd" by replacing the _XXX_. (**IMPORTANT**) Run the file name ddl.py first before all the other files to create schemas in the MYSQL database.
 
 6. Other _.py_ files in the covid_project folder can be initiated in any order.
 
