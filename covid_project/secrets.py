@@ -1,4 +1,4 @@
 dbhost= xxx
 dbuser= xxx
 dbpass= xxx
-dbname= xxx
+dbname= covid
