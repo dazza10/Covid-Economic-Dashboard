@@ -11,7 +11,7 @@ Architecture-Image:
 
 1. Python version 3.7.5 was used for this project.
 
-2. Install and update all packages as per the requirements.txt in your environment using the [pip ](<https://www.startdataengineering.com/>"Pip Installation") command:
+2. Install and update all packages as per the requirements.txt in your environment using the [pip ](https://www.startdataengineering.com "Pip Installation") command:
 
    ```pip install -r requirements.txt```
 
