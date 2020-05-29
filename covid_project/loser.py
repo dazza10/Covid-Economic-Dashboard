@@ -32,6 +32,7 @@ df["Last"] = df['Price'].apply(lambda x:x.split('\n')[1])
 df["Change"] = df['Price'].apply(lambda x:x.split('\n')[2].split(" ")[0])
 df["% Change"] = df['Price'].apply(lambda x:x.split('\n')[2].split(" ")[1])
 df.drop(columns=["Price"],inplace =True)
+df['Date']=datetime.datetime.now().date().strftime('%d-%m-%Y')
 
 #Creating a connection betwenn python an MYSQL Database
 conn = "mysql+pymysql://{0}:{1}@{2}/{3}".format(secrets.dbuser,secrets.dbpass,secrets.dbhost,secrets.dbname)
