@@ -43,5 +43,3 @@ engine = sqlalchemy.create_engine(conn)
 
 # Pushing Data to MySQL
 daily_stats.to_sql(name='daily_stats',con=engine, index=False,if_exists='append')
-
-print (daily_stats)
