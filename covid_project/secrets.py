@@ -1,4 +1,4 @@
-dbhost= xxx
-dbuser= xxx
-dbpass= xxx
-dbname= "covid"
+dbhost = "localhost"
+dbuser = "root"
+dbpass = "mysql:101093"
+dbname = "covid_economy"
