@@ -4,3 +4,4 @@ Lib
 pyvenv.cfg
 covid.py
 secrets.py
+.pylintrc
